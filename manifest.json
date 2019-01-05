@@ -1,15 +1,16 @@
 {
- “manifest_version”: 2,
- “name”: "Game of Thrones Quotes",
- “description”: “A Game of Thrones Quote to start your tab.”,
- “version”: “1”,
- “author”: “LemonadeJetpack”,
+ "manifest_version": 2,
+ "name": "Game of Thrones Quotes",
+ "description": "A Game of Thrones Quote to start your tab.",
+ "version": "1",
+ "author": "LemonadeJetpack",
 "browser_action": {
    "default_icon": "tab-icon.png",
-   “default_title”: “Game of Thrones Quotes”
+   "default_title": "Game of Thrones Quotes"
  },
-“chrome_url_overrides” : {
-  “newtab”: index.html”
+"content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
+"chrome_url_overrides" : {
+  "newtab": "index.html"
 },
- “permissions”: [“activeTab”]
+ "permissions": ["activeTab"]
 }
