@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Game of Thrones Quotes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      body  {
+        background-image: url("background.jpg");
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0 5%;
+      }
+      #searchForm {
+        width: 100%;
+      }
+
+      #quote {
+        font-size: 28px;
+        color: white;
+      }
+
+      #character {
+        font-size: 20px;
+        color: white;
+        padding-bottom: 5%;
+      }
+
+      .fa {
+        padding: 20px;
+        font-size: 30px;
+        width: 30px;
+        text-decoration: none;
+        margin: 5px 2px;
+      }
+
+      .fa:hover {
+          opacity: 0.7;
+      }
+
+      .fa-github {
+        color: white;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <p id="quote"/>
+      <p id="character"/>
+
+      <form action="http://www.google.com/search" method="get">
+        <div class="input-group" id="searchForm">
+          <input type="text" class="form-control" name="q" placeholder="Google Search">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" value="search">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+      <a href="#" class="fa fa-github"></a>
+    </div>
+  </body>
+  <script>
+      var getQuote = new XMLHttpRequest();
+      getQuote.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var quoteRes = JSON.parse(this.responseText);
+          document.getElementById("quote").innerHTML = quoteRes.quote;
+          document.getElementById("character").innerHTML = '~ ' + quoteRes.character;
+          var characterName = quoteRes.character.replace(/ .*/,'');
+          var gotApiUrl = "https://api.got.show/api/characters/";
+          var getImage = new XMLHttpRequest();
+          getImage.onreadystatechange = function() {
+            console.log(this.responseText)
+            if (this.readyState == 4 && this.status == 200) {
+              var gotApiRes = JSON.parse(this.responseText);
+              console.log(gotApiRes)
+              if (gotApiRes.message == 'Success') {
+                var data = gotApiRes.data;
+              }
+            }
+          };
+          getImage.open("GET", gotApiUrl + characterName, true);
+          getImage.send();
+        }
+      };
+      getQuote.open("GET", "https://got-quotes.herokuapp.com/quotes", true);
+      getQuote.send();
+  </script>
+</html>
